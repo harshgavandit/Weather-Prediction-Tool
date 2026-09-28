@@ -1,0 +1,513 @@
+{
+  "provenance": {
+    "dataset": "ERA5",
+    "provider": "Open-Meteo Historical Weather API",
+    "apiRequest": "https://archive-api.open-meteo.com/v1/archive?latitude=19.076&longitude=72.8777&start_date=1981-01-01&end_date=2025-12-31&daily=temperature_2m_mean%2Ctemperature_2m_max%2Cprecipitation_sum&models=era5&timezone=Asia%2FKolkata",
+    "retrievedAt": "2026-09-27T11:37:32.763592+00:00",
+    "responseSha256": "8b6640d6988362e6e930f1faac50443494919850242c70437631c67371c05ef6",
+    "referenceLocation": {
+      "name": "Mumbai reference location",
+      "latitude": 19.0,
+      "longitude": 73.0,
+      "elevation": 6.0,
+      "timezone": "Asia/Kolkata"
+    },
+    "locationRole": "User-selectable reference location; not respondent location",
+    "period": {
+      "start": "1981-01-01",
+      "end": "2025-12-31"
+    },
+    "observationCount": 16436,
+    "units": {
+      "time": "iso8601",
+      "temperature_2m_mean": "\u00b0C",
+      "temperature_2m_max": "\u00b0C",
+      "precipitation_sum": "mm"
+    }
+  },
+  "methodology": {
+    "temperature": "Annual mean of daily mean 2 m air temperature; decade value is the mean of included annual values.",
+    "summerPeak": "Annual maximum daily maximum 2 m temperature; decade value is the mean of annual peaks.",
+    "monsoonRainfall": "Annual June-September precipitation sum; decade value is the mean of annual monsoon totals.",
+    "heavyRainDays": "Annual count of days with precipitation sum greater than or equal to 100 mm.",
+    "heatwaveDays": "Educational heat-day indicator: annual count of days with maximum 2 m temperature greater than or equal to 35 C; not an official IMD heatwave declaration.",
+    "trend": "Ordinary least-squares slope over complete annual values; shown per decade."
+  },
+  "quality": {
+    "status": "verified-snapshot",
+    "completeYears": 45,
+    "minimumValidTemperatureDaysPerYear": 300,
+    "limitations": [
+      "Reanalysis represents a gridded model estimate, not a local station observation.",
+      "The reference coordinate is a demonstration location and is not provided by survey respondents.",
+      "Heat-day counts are a transparent educational indicator, not an official heatwave classification."
+    ]
+  },
+  "annual": [
+    {
+      "year": 1981,
+      "meanAnnualTemp": 26.47,
+      "annualPeakTemp": 36.6,
+      "monsoonRainfallMm": 1729.8,
+      "heavyRainDays": 0,
+      "heatDays": 3,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1982,
+      "meanAnnualTemp": 26.41,
+      "annualPeakTemp": 35.8,
+      "monsoonRainfallMm": 1967.1,
+      "heavyRainDays": 1,
+      "heatDays": 4,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1983,
+      "meanAnnualTemp": 25.99,
+      "annualPeakTemp": 34.3,
+      "monsoonRainfallMm": 2194.5,
+      "heavyRainDays": 1,
+      "heatDays": 0,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1984,
+      "meanAnnualTemp": 26.19,
+      "annualPeakTemp": 36.5,
+      "monsoonRainfallMm": 1206.2,
+      "heavyRainDays": 0,
+      "heatDays": 4,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 1985,
+      "meanAnnualTemp": 26.06,
+      "annualPeakTemp": 36.5,
+      "monsoonRainfallMm": 1385.7,
+      "heavyRainDays": 0,
+      "heatDays": 5,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1986,
+      "meanAnnualTemp": 26.39,
+      "annualPeakTemp": 35.7,
+      "monsoonRainfallMm": 1411.7,
+      "heavyRainDays": 1,
+      "heatDays": 1,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1987,
+      "meanAnnualTemp": 26.79,
+      "annualPeakTemp": 35.6,
+      "monsoonRainfallMm": 1417.5,
+      "heavyRainDays": 0,
+      "heatDays": 5,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1988,
+      "meanAnnualTemp": 26.5,
+      "annualPeakTemp": 35.0,
+      "monsoonRainfallMm": 2066.7,
+      "heavyRainDays": 1,
+      "heatDays": 1,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 1989,
+      "meanAnnualTemp": 26.31,
+      "annualPeakTemp": 36.6,
+      "monsoonRainfallMm": 1623.7,
+      "heavyRainDays": 2,
+      "heatDays": 5,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1990,
+      "meanAnnualTemp": 26.29,
+      "annualPeakTemp": 34.2,
+      "monsoonRainfallMm": 1381.5,
+      "heavyRainDays": 1,
+      "heatDays": 0,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1991,
+      "meanAnnualTemp": 26.36,
+      "annualPeakTemp": 35.4,
+      "monsoonRainfallMm": 1781.8,
+      "heavyRainDays": 1,
+      "heatDays": 3,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1992,
+      "meanAnnualTemp": 26.41,
+      "annualPeakTemp": 35.1,
+      "monsoonRainfallMm": 1479.5,
+      "heavyRainDays": 1,
+      "heatDays": 1,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 1993,
+      "meanAnnualTemp": 26.37,
+      "annualPeakTemp": 34.0,
+      "monsoonRainfallMm": 1996.8,
+      "heavyRainDays": 4,
+      "heatDays": 0,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1994,
+      "meanAnnualTemp": 26.44,
+      "annualPeakTemp": 34.7,
+      "monsoonRainfallMm": 1881.6,
+      "heavyRainDays": 2,
+      "heatDays": 0,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1995,
+      "meanAnnualTemp": 26.67,
+      "annualPeakTemp": 36.0,
+      "monsoonRainfallMm": 1268.5,
+      "heavyRainDays": 1,
+      "heatDays": 2,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1996,
+      "meanAnnualTemp": 26.49,
+      "annualPeakTemp": 35.6,
+      "monsoonRainfallMm": 1361.7,
+      "heavyRainDays": 0,
+      "heatDays": 3,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 1997,
+      "meanAnnualTemp": 26.51,
+      "annualPeakTemp": 34.6,
+      "monsoonRainfallMm": 1583.1,
+      "heavyRainDays": 0,
+      "heatDays": 0,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1998,
+      "meanAnnualTemp": 26.82,
+      "annualPeakTemp": 35.9,
+      "monsoonRainfallMm": 1642.6,
+      "heavyRainDays": 0,
+      "heatDays": 5,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 1999,
+      "meanAnnualTemp": 26.45,
+      "annualPeakTemp": 37.2,
+      "monsoonRainfallMm": 1456.8,
+      "heavyRainDays": 0,
+      "heatDays": 2,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2000,
+      "meanAnnualTemp": 26.4,
+      "annualPeakTemp": 36.5,
+      "monsoonRainfallMm": 1603.5,
+      "heavyRainDays": 0,
+      "heatDays": 3,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 2001,
+      "meanAnnualTemp": 26.37,
+      "annualPeakTemp": 36.1,
+      "monsoonRainfallMm": 1533.7,
+      "heavyRainDays": 0,
+      "heatDays": 2,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2002,
+      "meanAnnualTemp": 26.91,
+      "annualPeakTemp": 36.1,
+      "monsoonRainfallMm": 1482.7,
+      "heavyRainDays": 0,
+      "heatDays": 3,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2003,
+      "meanAnnualTemp": 26.87,
+      "annualPeakTemp": 34.4,
+      "monsoonRainfallMm": 1763.2,
+      "heavyRainDays": 0,
+      "heatDays": 0,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2004,
+      "meanAnnualTemp": 26.79,
+      "annualPeakTemp": 37.6,
+      "monsoonRainfallMm": 1963.8,
+      "heavyRainDays": 1,
+      "heatDays": 15,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 2005,
+      "meanAnnualTemp": 26.48,
+      "annualPeakTemp": 36.1,
+      "monsoonRainfallMm": 2353.1,
+      "heavyRainDays": 2,
+      "heatDays": 6,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2006,
+      "meanAnnualTemp": 26.96,
+      "annualPeakTemp": 36.1,
+      "monsoonRainfallMm": 2244.2,
+      "heavyRainDays": 2,
+      "heatDays": 3,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2007,
+      "meanAnnualTemp": 27.07,
+      "annualPeakTemp": 37.2,
+      "monsoonRainfallMm": 2268.1,
+      "heavyRainDays": 1,
+      "heatDays": 5,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2008,
+      "meanAnnualTemp": 26.71,
+      "annualPeakTemp": 35.1,
+      "monsoonRainfallMm": 1823.5,
+      "heavyRainDays": 0,
+      "heatDays": 2,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 2009,
+      "meanAnnualTemp": 27.16,
+      "annualPeakTemp": 37.3,
+      "monsoonRainfallMm": 1438.0,
+      "heavyRainDays": 0,
+      "heatDays": 14,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2010,
+      "meanAnnualTemp": 27.1,
+      "annualPeakTemp": 35.2,
+      "monsoonRainfallMm": 2143.7,
+      "heavyRainDays": 2,
+      "heatDays": 5,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2011,
+      "meanAnnualTemp": 26.83,
+      "annualPeakTemp": 36.5,
+      "monsoonRainfallMm": 2111.8,
+      "heavyRainDays": 1,
+      "heatDays": 4,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2012,
+      "meanAnnualTemp": 26.4,
+      "annualPeakTemp": 35.3,
+      "monsoonRainfallMm": 1348.4,
+      "heavyRainDays": 0,
+      "heatDays": 3,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 2013,
+      "meanAnnualTemp": 26.56,
+      "annualPeakTemp": 36.2,
+      "monsoonRainfallMm": 2112.1,
+      "heavyRainDays": 1,
+      "heatDays": 6,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2014,
+      "meanAnnualTemp": 27.11,
+      "annualPeakTemp": 37.0,
+      "monsoonRainfallMm": 1813.4,
+      "heavyRainDays": 3,
+      "heatDays": 11,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2015,
+      "meanAnnualTemp": 27.24,
+      "annualPeakTemp": 36.1,
+      "monsoonRainfallMm": 1235.2,
+      "heavyRainDays": 1,
+      "heatDays": 1,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2016,
+      "meanAnnualTemp": 26.83,
+      "annualPeakTemp": 35.7,
+      "monsoonRainfallMm": 2513.9,
+      "heavyRainDays": 4,
+      "heatDays": 2,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 2017,
+      "meanAnnualTemp": 26.97,
+      "annualPeakTemp": 36.3,
+      "monsoonRainfallMm": 2096.4,
+      "heavyRainDays": 2,
+      "heatDays": 3,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2018,
+      "meanAnnualTemp": 27.18,
+      "annualPeakTemp": 36.7,
+      "monsoonRainfallMm": 1411.4,
+      "heavyRainDays": 0,
+      "heatDays": 2,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2019,
+      "meanAnnualTemp": 26.99,
+      "annualPeakTemp": 36.0,
+      "monsoonRainfallMm": 2405.1,
+      "heavyRainDays": 2,
+      "heatDays": 4,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2020,
+      "meanAnnualTemp": 27.21,
+      "annualPeakTemp": 36.6,
+      "monsoonRainfallMm": 2718.9,
+      "heavyRainDays": 5,
+      "heatDays": 2,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 2021,
+      "meanAnnualTemp": 27.27,
+      "annualPeakTemp": 36.9,
+      "monsoonRainfallMm": 1624.8,
+      "heavyRainDays": 0,
+      "heatDays": 6,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2022,
+      "meanAnnualTemp": 26.97,
+      "annualPeakTemp": 36.6,
+      "monsoonRainfallMm": 2085.7,
+      "heavyRainDays": 0,
+      "heatDays": 11,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2023,
+      "meanAnnualTemp": 27.5,
+      "annualPeakTemp": 36.4,
+      "monsoonRainfallMm": 2054.4,
+      "heavyRainDays": 0,
+      "heatDays": 9,
+      "validTemperatureDays": 365
+    },
+    {
+      "year": 2024,
+      "meanAnnualTemp": 27.47,
+      "annualPeakTemp": 37.4,
+      "monsoonRainfallMm": 1979.3,
+      "heavyRainDays": 0,
+      "heatDays": 6,
+      "validTemperatureDays": 366
+    },
+    {
+      "year": 2025,
+      "meanAnnualTemp": 27.16,
+      "annualPeakTemp": 35.5,
+      "monsoonRainfallMm": 1907.7,
+      "heavyRainDays": 1,
+      "heatDays": 2,
+      "validTemperatureDays": 365
+    }
+  ],
+  "decades": [
+    {
+      "decade": "1981-1990",
+      "yearsIncluded": 10,
+      "meanAnnualTemp": 26.34,
+      "summerPeakAvg": 35.68,
+      "monsoonRainfallMm": 1638.4,
+      "extremeRainDaysPerYear": 0.7,
+      "heatwaveDaysPerYear": 2.8
+    },
+    {
+      "decade": "1991-2000",
+      "yearsIncluded": 10,
+      "meanAnnualTemp": 26.49,
+      "summerPeakAvg": 35.5,
+      "monsoonRainfallMm": 1605.6,
+      "extremeRainDaysPerYear": 0.9,
+      "heatwaveDaysPerYear": 1.9
+    },
+    {
+      "decade": "2001-2010",
+      "yearsIncluded": 10,
+      "meanAnnualTemp": 26.84,
+      "summerPeakAvg": 36.12,
+      "monsoonRainfallMm": 1901.4,
+      "extremeRainDaysPerYear": 0.8,
+      "heatwaveDaysPerYear": 5.5
+    },
+    {
+      "decade": "2011-2020",
+      "yearsIncluded": 10,
+      "meanAnnualTemp": 26.93,
+      "summerPeakAvg": 36.24,
+      "monsoonRainfallMm": 1976.7,
+      "extremeRainDaysPerYear": 1.9,
+      "heatwaveDaysPerYear": 3.8
+    },
+    {
+      "decade": "2021-2025",
+      "yearsIncluded": 5,
+      "meanAnnualTemp": 27.27,
+      "summerPeakAvg": 36.56,
+      "monsoonRainfallMm": 1930.4,
+      "extremeRainDaysPerYear": 0.2,
+      "heatwaveDaysPerYear": 6.8
+    }
+  ],
+  "changes": {
+    "meanAnnualTempC": 0.93,
+    "summerPeakC": 0.88,
+    "monsoonRainfallMm": 292.0,
+    "heavyRainDaysPerYear": -0.5,
+    "heatDaysPerYear": 4.0,
+    "baseline": "1981-1990",
+    "recent": "2021-2025"
+  },
+  "trendsPerDecade": {
+    "meanAnnualTempC": 0.238,
+    "monsoonRainfallMm": 111.9
+  }
+}
