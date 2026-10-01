@@ -32,7 +32,7 @@ export const ExecutiveOverview: React.FC<Props> = ({ surveyData, onNavigateTab, 
         <div className="mb-5 flex flex-wrap gap-2"><BadgeOrigin type="source" citation="PDF p.1"/><BadgeOrigin type="calculated"/><BadgeOrigin type="ai"/></div>
         <p className="eyebrow">PDF intelligence · evidence before inference</p>
         <h1 className="display-title mt-3">From one dense survey PDF to insights people can understand.</h1>
-        <p className="mt-5 max-w-2xl text-sm leading-6 text-slate-300">Explore all 51 anonymized responses, compare perceptions across every question, and review transparent summaries and practical recommendations. Every displayed result comes from RESPONSES.pdf—no live weather, forecast, or external climate feed is used.</p>
+        <p className="mt-5 max-w-2xl text-sm leading-6 text-slate-300">Explore all 51 anonymized responses, compare perceptions across every question, and review transparent summaries and practical recommendations. Survey results come from RESPONSES.pdf; any participant photos are clearly separated as later field evidence. No live weather, forecast, or external climate feed is used.</p>
         <div className="mt-6 flex flex-wrap gap-3"><button className="primary-cta" onClick={() => onNavigateTab('evidence')}><Sparkles/> Explore the evidence <ArrowRight/></button><button className="secondary-cta" onClick={onOpenPdfModal}><FileText/> Inspect source PDF</button></div>
       </div>
       <div className="hero-stats"><div><Users/><strong>51</strong><span>anonymous participants</span></div><div><FileText/><strong>765</strong><span>answer cells verified</span></div><div><ShieldCheck/><strong>3</strong><span>blank answers preserved</span></div></div>

@@ -1,6 +1,6 @@
 # Climora — PDF Survey Intelligence Platform
 
-Climora converts the supplied `RESPONSES.pdf` into a privacy-safe, traceable dashboard for survey results, summaries, comparisons, impact interpretation, and practical recommendations. The website uses no live weather API, forecast, air-quality feed, map service, or external climate dataset.
+Climora converts the supplied `RESPONSES.pdf` into a privacy-safe, traceable dashboard for survey results, summaries, comparisons, impact interpretation, and practical recommendations. It also supports separately labeled geo-tagged field photos linked to the 51 anonymous participants. The website uses no live weather API, forecast, air-quality feed, automatic map service, or external climate dataset.
 
 ## Included
 
@@ -10,6 +10,8 @@ Climora converts the supplied `RESPONSES.pdf` into a privacy-safe, traceable das
 - Survey-derived impact priorities and recommendations with clear source, calculated, and interpretation labels.
 - Blank values preserved without imputation and personal fields excluded from public application data.
 - Responsive animated interface with desktop and mobile navigation.
+- Admin-managed JPEG, PNG, and WebP field evidence with EXIF, device-GPS, or manual coordinate provenance.
+- Persistent photo gallery, participant attachment view, filters, metadata editing, verification status, and protected deletion.
 
 ## Run locally
 
@@ -47,10 +49,17 @@ It validates the structured survey answers against `RESPONSES.pdf` and regenerat
 - `GET /api/survey/record/:id`
 - `GET /api/export/csv`
 - `GET /api/survey-impacts`
+- `GET /api/photo-evidence`
+- `GET /api/photo-evidence/:id/image`
+- `POST /api/photo-evidence`
+- `PATCH /api/photo-evidence/:id`
+- `DELETE /api/photo-evidence/:id`
 
 The impact endpoint is calculated only from the extracted PDF survey records. It does not call an external provider.
 All legacy `/api/weather/*` routes are disabled in PDF-only mode and return HTTP 410 without contacting a provider.
 
+Photo mutations are available from localhost for the college demonstration. For a non-local deployment, set `CLIMORA_ADMIN_KEY` and enter the same value in the evidence manager; remote mutations without the key are rejected. Uploaded files are limited to 8 MB and validated by their actual JPEG, PNG, or WebP signature.
+
 ## Evidence boundary
 
-Survey answers represent participant perceptions and are not presented as measured climate trends, a statistically representative regional sample, causal proof, or official hazard probabilities. Calculated results and interpretation are labeled separately throughout the interface.
+Survey answers represent participant perceptions and are not presented as measured climate trends, a statistically representative regional sample, causal proof, or official hazard probabilities. Calculated results, interpretation, and newly attached field evidence are labeled separately throughout the interface. Photo coordinates are never treated as PDF data and are never invented.

@@ -3,6 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createPhotoEvidenceRouter } from './photoEvidence.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,6 +63,11 @@ function loadSurveyData() {
 }
 loadSurveyData();
 
+app.use('/api/photo-evidence', createPhotoEvidenceRouter({
+  rootDir,
+  getSurveyData: () => surveyData
+}));
+
 // Serve the original PDF file
 app.get('/RESPONSES.pdf', (req, res) => {
   const pdfPath = path.join(rootDir, 'RESPONSES.pdf');
@@ -78,7 +84,7 @@ app.get('/RESPONSES.pdf', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    dataMode: 'pdf-only',
+    dataMode: 'pdf-survey-with-field-evidence',
     externalDataRequests: false,
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),

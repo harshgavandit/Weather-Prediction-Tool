@@ -1,17 +1,21 @@
 import React from 'react';
-import { X, FileText, User, ShieldCheck, Calendar, AlertCircle, Copy, Check } from 'lucide-react';
-import { SurveyRecord, QuestionInfo } from '../types';
+import { createPortal } from 'react-dom';
+import { X, FileText, User, ShieldCheck, Calendar, AlertCircle, Copy, Check, Camera, MapPin, ExternalLink, Globe2, Sparkles } from 'lucide-react';
+import { PhotoEvidence, SurveyRecord, QuestionInfo } from '../types';
 import { BadgeOrigin } from './BadgeOrigin';
+import { getIllustrativeImageForRecord, illustrativeFallbackUrl } from '../data/illustrativeImages';
 
 interface ResponseDetailModalProps {
   record: SurveyRecord | null;
   questions: Record<string, QuestionInfo>;
+  photoEvidence?: PhotoEvidence[];
   onClose: () => void;
 }
 
 export const ResponseDetailModal: React.FC<ResponseDetailModalProps> = ({
   record,
   questions,
+  photoEvidence = [],
   onClose
 }) => {
   const [copied, setCopied] = React.useState(false);
@@ -25,8 +29,10 @@ export const ResponseDetailModal: React.FC<ResponseDetailModalProps> = ({
   };
 
   const questionKeys = ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10', 'Q11', 'Q12', 'Q13', 'Q14', 'Q15'];
+  const participantPhotos = photoEvidence.filter(item => item.participant.id === record.id);
+  const illustration = getIllustrativeImageForRecord(record);
 
-  return (
+  return createPortal((
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
       <div className="relative w-full max-w-3xl rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
         {/* Modal Header */}
@@ -145,6 +151,23 @@ export const ResponseDetailModal: React.FC<ResponseDetailModalProps> = ({
           })}
         </div>
 
+        <div className="border-t border-slate-800 p-6">
+          <div className="overflow-hidden rounded-2xl border border-cyan-300/15 bg-slate-950/45">
+            <div className="grid sm:grid-cols-[.9fr_1.1fr]">
+              <div className="relative min-h-56 overflow-hidden bg-slate-950"><img src={illustration.image.imageUrl} alt={illustration.image.alt} loading="lazy" referrerPolicy="no-referrer" onError={event => { if (event.currentTarget.src !== illustrativeFallbackUrl) event.currentTarget.src = illustrativeFallbackUrl; }} className="absolute inset-0 h-full w-full object-cover transition duration-700 hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"/><span className="absolute bottom-3 left-3 rounded-full border border-white/15 bg-slate-950/70 px-2.5 py-1 text-[8px] font-bold uppercase tracking-wider text-white backdrop-blur">Web illustration · not evidence</span></div>
+              <div className="flex flex-col p-5"><div className="flex items-center gap-2 text-cyan-300"><Sparkles className="h-4 w-4"/><span className="text-[9px] font-black uppercase tracking-[.15em]">Illustrative climate context</span></div><h4 className="mt-3 text-lg font-black tracking-[-.025em] text-white">{illustration.image.title}</h4><p className="mt-2 text-[10px] leading-5 text-slate-400">Selected from this participant’s Q14/Q15 answers for visual presentation only. It is not a participant upload, has no claimed survey-location GPS, and is excluded from field-evidence counts.</p>
+                <div className="mt-4 grid gap-2"><div className="rounded-xl border border-rose-400/15 bg-rose-400/[.06] px-3 py-2"><span className="text-[8px] font-bold uppercase tracking-wider text-rose-300">Q14 problem</span><strong className="ml-2 text-[10px] text-white">{illustration.problem}</strong></div><div className="rounded-xl border border-emerald-400/15 bg-emerald-400/[.06] px-3 py-2"><span className="text-[8px] font-bold uppercase tracking-wider text-emerald-300">Q15 action</span><strong className="ml-2 text-[10px] text-white">{illustration.preferredAction}</strong></div></div>
+                <a href={illustration.image.sourceUrl} target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-between gap-3 border-t border-slate-800 pt-3 text-[9px] text-slate-400 hover:text-cyan-200"><span className="flex items-center gap-1.5"><Globe2 className="h-3.5 w-3.5 text-cyan-300"/>{illustration.image.credit} · {illustration.image.license}</span><ExternalLink className="h-3.5 w-3.5"/></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-slate-800 p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3"><div><div className="flex items-center gap-2"><Camera className="h-4 w-4 text-cyan-300"/><h4 className="text-sm font-bold text-white">Attached field evidence</h4></div><p className="mt-1 text-[10px] text-slate-500">Separately collected photos linked to this anonymous participant—not extracted from the PDF.</p></div><span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[10px] font-bold text-cyan-300">{participantPhotos.length} photo{participantPhotos.length === 1 ? '' : 's'}</span></div>
+          {participantPhotos.length === 0 ? <div className="mt-4 rounded-xl border border-dashed border-slate-800 px-4 py-7 text-center text-[11px] text-slate-500">No field photos are attached to {record.respondentId}.</div> : <div className="mt-4 grid gap-3 sm:grid-cols-2">{participantPhotos.map(item => <article key={item.id} className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950/40"><img src={item.imageUrl} alt={item.title} className="aspect-[16/9] w-full object-cover"/><div className="p-3"><div className="flex items-center justify-between gap-2"><strong className="text-xs text-white">{item.title}</strong><span className={`rounded-full px-2 py-0.5 text-[8px] font-bold uppercase ${item.status === 'verified' ? 'bg-emerald-500/10 text-emerald-300' : item.status === 'rejected' ? 'bg-rose-500/10 text-rose-300' : 'bg-amber-500/10 text-amber-300'}`}>{item.status}</span></div><p className="mt-1 line-clamp-2 text-[10px] leading-4 text-slate-400">{item.description || 'No description provided.'}</p><div className="mt-3 flex items-center justify-between gap-2 text-[9px] text-slate-500"><span className="flex items-center gap-1"><MapPin className="h-3 w-3"/>{item.location.source === 'unavailable' ? 'No location' : item.location.label || `${item.location.latitude?.toFixed(4)}, ${item.location.longitude?.toFixed(4)}`}</span>{item.location.latitude !== null && item.location.longitude !== null && <a href={`https://www.openstreetmap.org/?mlat=${item.location.latitude}&mlon=${item.location.longitude}#map=16/${item.location.latitude}/${item.location.longitude}`} target="_blank" rel="noreferrer" className="text-cyan-300">Map <ExternalLink className="inline h-3 w-3"/></a>}</div></div></article>)}</div>}
+        </div>
+
         {/* Modal Footer */}
         <div className="p-4 border-t border-slate-800 bg-slate-800/40 flex items-center justify-between text-xs text-slate-400">
           <BadgeOrigin type="source" citation={`RESPONSES.pdf, Row ${record.rowNumber}`} />
@@ -157,5 +180,5 @@ export const ResponseDetailModal: React.FC<ResponseDetailModalProps> = ({
         </div>
       </div>
     </div>
-  );
+  ), document.body);
 };

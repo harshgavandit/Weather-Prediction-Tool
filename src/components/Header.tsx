@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, Compass, Download, FileText, Gauge, LayoutDashboard, Lightbulb, Menu, ShieldCheck, X } from 'lucide-react';
+import { BarChart3, Camera, Compass, Download, FileText, Gauge, LayoutDashboard, Lightbulb, Menu, ShieldCheck, X } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: string;
@@ -11,8 +11,9 @@ const nav = [
   { id: 'overview', label: 'Command center', short: 'Home', icon: LayoutDashboard },
   { id: 'evidence', label: 'Survey evidence', short: 'Evidence', icon: FileText },
   { id: 'analytics', label: 'Survey analytics', short: 'Analytics', icon: BarChart3 },
+  { id: 'geo-evidence', label: 'Geo photo evidence', short: 'Photos', icon: Camera },
   { id: 'impacts', label: 'Impact analysis', short: 'Impacts', icon: Gauge },
-  { id: 'actions', label: 'Recommendations', short: 'Actions', icon: Lightbulb },
+  { id: 'actions', label: 'People action plans', short: 'Actions', icon: Lightbulb },
   { id: 'sources', label: 'Sources & method', short: 'More', icon: ShieldCheck }
 ];
 
@@ -28,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenP
       <div className="sidebar-spacer"/>
       <button className="sidebar-source" onClick={onOpenPdfModal}><FileText/><span><strong>RESPONSES.pdf</strong><small>Original · page 1</small></span></button>
       <a className="sidebar-export" href="/api/export/csv" download><Download/> Export clean CSV</a>
-      <p className="sidebar-foot">Built exclusively from RESPONSES.pdf<br/>No external weather or climate feeds</p>
+      <p className="sidebar-foot">PDF survey + participant field evidence<br/>No external weather or climate feeds</p>
     </aside>
     {open && <button className="sidebar-scrim" onClick={() => setOpen(false)} aria-label="Close navigation overlay"/>}
 
@@ -42,6 +43,6 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenP
       </div>
     </header>
 
-    <nav className="mobile-nav" aria-label="Mobile navigation">{nav.slice(0, 5).map(({ id, short, icon: Icon }) => <button key={id} className={activeTab === id ? 'active' : ''} onClick={() => changeTab(id)}><Icon/><span>{short}</span></button>)}<button className={activeTab === 'sources' ? 'active' : ''} onClick={() => changeTab('sources')}><ShieldCheck/><span>More</span></button></nav>
+    <nav className="mobile-nav" aria-label="Mobile navigation">{nav.slice(0, 5).map(({ id, short, icon: Icon }) => <button key={id} className={activeTab === id ? 'active' : ''} onClick={() => changeTab(id)}><Icon/><span>{short}</span></button>)}<button onClick={() => setOpen(true)}><ShieldCheck/><span>More</span></button></nav>
   </>;
 };

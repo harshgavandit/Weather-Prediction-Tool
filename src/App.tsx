@@ -5,20 +5,26 @@ import { ExecutiveOverview } from './components/ExecutiveOverview';
 import { PDFExplorer } from './components/PDFExplorer';
 import { SurveyAnalytics } from './components/SurveyAnalytics';
 import { SectoralImpacts } from './components/SectoralImpacts';
-import { RecommendationsRoadmap } from './components/RecommendationsRoadmap';
+import { ParticipantActionPlans } from './components/ParticipantActionPlans';
+import { GeoPhotoEvidence } from './components/GeoPhotoEvidence';
 import { ResponseDetailModal } from './components/ResponseDetailModal';
 import { PDFViewerModal } from './components/PDFViewerModal';
 import { SourcesMethodology } from './components/SourcesMethodology';
-import { fetchSectoralImpacts, fetchSurveyData } from './services/api';
-import { SectoralImpactsData, SurveyRecord, SurveyResponseData } from './types';
+import { fetchPhotoEvidence, fetchSectoralImpacts, fetchSurveyData } from './services/api';
+import { PhotoEvidenceResponse, SectoralImpactsData, SurveyRecord, SurveyResponseData } from './types';
 
-type ServiceErrors = Partial<Record<'survey' | 'sectors', string>>;
+type ServiceErrors = Partial<Record<'survey' | 'sectors' | 'photos', string>>;
 
-const AnalysisUnavailable = ({ message }: { message: string }) => (
+const emptyPhotoEvidence: PhotoEvidenceResponse = {
+  items: [],
+  summary: { total: 0, verified: 0, withCoordinates: 0, participantsWithEvidence: 0, byCategory: [] }
+};
+
+const AnalysisUnavailable = ({ message, title = 'The survey synthesis could not be loaded' }: { message: string; title?: string }) => (
   <section className="empty-state">
     <div><FileSearch /></div>
     <p className="eyebrow">PDF analysis unavailable</p>
-    <h2>The survey synthesis could not be loaded</h2>
+    <h2>{title}</h2>
     <p>{message}</p>
     <button onClick={() => window.location.reload()}><RefreshCw /> Retry PDF analysis</button>
   </section>
@@ -28,6 +34,7 @@ export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [surveyData, setSurveyData] = useState<SurveyResponseData | null>(null);
   const [sectorData, setSectorData] = useState<SectoralImpactsData | null>(null);
+  const [photoEvidence, setPhotoEvidence] = useState<PhotoEvidenceResponse>(emptyPhotoEvidence);
   const [selectedRecord, setSelectedRecord] = useState<SurveyRecord | null>(null);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,13 +42,15 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     let mounted = true;
-    Promise.allSettled([fetchSurveyData(), fetchSectoralImpacts()]).then((results) => {
+    Promise.allSettled([fetchSurveyData(), fetchSectoralImpacts(), fetchPhotoEvidence()]).then((results) => {
       if (!mounted) return;
       const nextErrors: ServiceErrors = {};
       if (results[0].status === 'fulfilled') setSurveyData(results[0].value);
       else nextErrors.survey = results[0].reason instanceof Error ? results[0].reason.message : 'PDF dataset unavailable';
       if (results[1].status === 'fulfilled') setSectorData(results[1].value);
       else nextErrors.sectors = results[1].reason instanceof Error ? results[1].reason.message : 'Survey synthesis unavailable';
+      if (results[2].status === 'fulfilled') setPhotoEvidence(results[2].value);
+      else nextErrors.photos = results[2].reason instanceof Error ? results[2].reason.message : 'Photo evidence unavailable';
       setErrors(nextErrors);
       setIsLoading(false);
     });
@@ -65,12 +74,13 @@ export const App: React.FC = () => {
       {activeTab === 'overview' && <ExecutiveOverview surveyData={surveyData} onNavigateTab={routeTab} onOpenPdfModal={() => setIsPdfModalOpen(true)} />}
       {activeTab === 'evidence' && <PDFExplorer records={surveyData.records} onSelectRecord={setSelectedRecord} onOpenPdfModal={() => setIsPdfModalOpen(true)} />}
       {activeTab === 'analytics' && <SurveyAnalytics surveyData={surveyData} />}
+      {activeTab === 'geo-evidence' && (errors.photos ? <AnalysisUnavailable title="The field-evidence registry could not be loaded" message={errors.photos} /> : <GeoPhotoEvidence surveyData={surveyData} evidence={photoEvidence} onEvidenceChange={setPhotoEvidence} />)}
       {activeTab === 'impacts' && (sectorData ? <SectoralImpacts sectorData={sectorData} /> : <AnalysisUnavailable message={errors.sectors || 'The PDF-backed sector synthesis could not be loaded.'} />)}
-      {activeTab === 'actions' && <RecommendationsRoadmap />}
-      {activeTab === 'sources' && <SourcesMethodology surveyData={surveyData} onOpenPdf={() => setIsPdfModalOpen(true)} />}
+      {activeTab === 'actions' && <ParticipantActionPlans surveyData={surveyData} photoEvidence={photoEvidence.items} onInspectResponse={(recordId) => setSelectedRecord(surveyData.records.find(record => record.id === recordId) || null)} />}
+      {activeTab === 'sources' && <SourcesMethodology surveyData={surveyData} photoSummary={photoEvidence.summary} onOpenPdf={() => setIsPdfModalOpen(true)} />}
     </main>
-    <footer className="app-footer"><div><strong>Climora</strong><span>Survey intelligence grounded exclusively in the supplied PDF.</span></div><div><span>RESPONSES.pdf · p.1</span><span>51 responses</span><span>15 questions</span></div></footer>
-    <ResponseDetailModal record={selectedRecord} questions={surveyData.metadata.questions} onClose={() => setSelectedRecord(null)} />
+    <footer className="app-footer"><div><strong>Climora</strong><span>PDF survey intelligence with separately labeled participant field evidence.</span></div><div><span>RESPONSES.pdf · p.1</span><span>51 responses</span><span>{photoEvidence.summary.total} field photos</span></div></footer>
+    <ResponseDetailModal record={selectedRecord} questions={surveyData.metadata.questions} photoEvidence={photoEvidence.items} onClose={() => setSelectedRecord(null)} />
     <PDFViewerModal isOpen={isPdfModalOpen} onClose={() => setIsPdfModalOpen(false)} />
   </div>;
 };

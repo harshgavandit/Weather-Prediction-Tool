@@ -1,4 +1,6 @@
 import {
+  PhotoEvidence,
+  PhotoEvidenceResponse,
   SectoralImpactsData,
   SurveyRecord,
   SurveyResponseData
@@ -20,6 +22,24 @@ async function getJson<T>(url: string): Promise<T> {
     }
     throw new Error(detail);
   }
+  return response.json() as Promise<T>;
+}
+
+async function mutationJson<T>(url: string, init: RequestInit, adminKey?: string): Promise<T> {
+  const headers = new Headers(init.headers);
+  if (adminKey?.trim()) headers.set('x-admin-key', adminKey.trim());
+  const response = await fetch(url, { ...init, headers });
+  if (!response.ok) {
+    let detail = `Request failed with HTTP ${response.status}`;
+    try {
+      const payload = await response.json() as ApiErrorPayload;
+      detail = payload.message || payload.error || detail;
+    } catch {
+      // Keep the status-based message when the response is not JSON.
+    }
+    throw new Error(detail);
+  }
+  if (response.status === 204) return undefined as T;
   return response.json() as Promise<T>;
 }
 
@@ -49,6 +69,26 @@ export async function fetchSurveyData(): Promise<SurveyResponseData> {
 
 export function fetchSectoralImpacts(): Promise<SectoralImpactsData> {
   return getJson(`${API_BASE}/survey-impacts`);
+}
+
+export function fetchPhotoEvidence(): Promise<PhotoEvidenceResponse> {
+  return getJson(`${API_BASE}/photo-evidence`);
+}
+
+export function uploadPhotoEvidence(formData: FormData, adminKey?: string): Promise<PhotoEvidence> {
+  return mutationJson(`${API_BASE}/photo-evidence`, { method: 'POST', body: formData }, adminKey);
+}
+
+export function updatePhotoEvidence(id: string, updates: Record<string, unknown>, adminKey?: string): Promise<PhotoEvidence> {
+  return mutationJson(`${API_BASE}/photo-evidence/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updates)
+  }, adminKey);
+}
+
+export function deletePhotoEvidence(id: string, adminKey?: string): Promise<void> {
+  return mutationJson(`${API_BASE}/photo-evidence/${encodeURIComponent(id)}`, { method: 'DELETE' }, adminKey);
 }
 
 function computeAnalytics(records: SurveyRecord[], questions: SurveyResponseData['metadata']['questions']) {

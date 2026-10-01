@@ -228,4 +228,53 @@ export interface SectoralImpactsData {
   sectors: SectorImpact[];
 }
 
+export type PhotoEvidenceCategory = 'Heat' | 'Flooding' | 'Water shortage' | 'Agriculture' | 'Environment' | 'Infrastructure' | 'Waste' | 'Other';
+export type PhotoEvidenceStatus = 'pending' | 'verified' | 'rejected';
+export type PhotoLocationSource = 'exif' | 'device' | 'manual' | 'unavailable';
+
+export interface PhotoEvidence {
+  id: string;
+  participant: {
+    id: string;
+    label: string;
+    rowNumber: number;
+    pageNumber: number;
+  };
+  title: string;
+  description: string;
+  category: PhotoEvidenceCategory;
+  status: PhotoEvidenceStatus;
+  location: {
+    latitude: number | null;
+    longitude: number | null;
+    source: PhotoLocationSource;
+    accuracyMeters: number | null;
+    label: string;
+  };
+  capturedAt: string | null;
+  uploadedAt: string;
+  updatedAt: string;
+  fieldEvidence: true;
+  file: {
+    safeOriginalName: string;
+    mimeType: string;
+    sizeBytes: number;
+    checksumSha256: string;
+  };
+  imageUrl: string;
+}
+
+export interface PhotoEvidenceSummary {
+  total: number;
+  verified: number;
+  withCoordinates: number;
+  participantsWithEvidence: number;
+  byCategory: Array<{ category: PhotoEvidenceCategory; count: number }>;
+}
+
+export interface PhotoEvidenceResponse {
+  items: PhotoEvidence[];
+  summary: PhotoEvidenceSummary;
+}
+
 export type ProvenanceType = 'source' | 'calculated' | 'ai' | 'citizen' | 'scenario';
