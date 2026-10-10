@@ -80,18 +80,18 @@ describe('Climate Intelligence Backend API Endpoints', () => {
     });
   });
 
-  test('GET /api/weather/live returns live telemetry and forecast from Open-Meteo', async () => {
+  test('GET /api/weather/live remains disabled without contacting a provider', async () => {
     const res = await requestJson('/api/weather/live?lat=19.076&lon=72.8777');
-    assert.equal(res.status, 200);
-    assert.ok(res.data.current.temperature_2m !== undefined);
-    assert.ok(res.data.dailyForecast.time.length >= 7);
+    assert.equal(res.status, 410);
+    assert.equal(res.data.status, 'disabled');
+    assert.equal(res.data.data, null);
   });
 
-  test('GET /api/weather/historical-trends returns 40-year decadal ERA5 analysis', async () => {
+  test('GET /api/weather/historical-trends remains disabled in PDF-only mode', async () => {
     const res = await requestJson('/api/weather/historical-trends');
-    assert.equal(res.status, 200);
-    assert.equal(res.data.decades.length, 5);
-    assert.ok(res.data.surveyCorrelation.temperatureRise);
+    assert.equal(res.status, 410);
+    assert.equal(res.data.status, 'disabled');
+    assert.match(res.data.message, /RESPONSES.pdf only/);
   });
 
   test('GET /api/climate-impacts returns all 5 sectoral assessments', async () => {

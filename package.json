@@ -9,10 +9,11 @@
     "dev:web": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint src server vite.config.ts",
+    "lint": "eslint src server shared vite.config.ts",
     "server": "node server/index.js",
     "start": "node server/index.js",
-    "test": "node --test tests/*.js"
+    "test": "node --test tests/*.js",
+    "test:advisor": "node --test tests/weather_advisor.test.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",

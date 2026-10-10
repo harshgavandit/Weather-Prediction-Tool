@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, Camera, Compass, Download, FileText, Gauge, LayoutDashboard, Lightbulb, Menu, ShieldCheck, X } from 'lucide-react';
+import { BarChart3, Camera, CloudSun, Compass, Download, FileText, Gauge, LayoutDashboard, Lightbulb, Menu, ShieldCheck, X } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: string;
@@ -9,6 +9,7 @@ interface HeaderProps {
 
 const nav = [
   { id: 'overview', label: 'Command center', short: 'Home', icon: LayoutDashboard },
+  { id: 'weather-advisor', label: 'Weather advisor', short: 'Ask', icon: CloudSun },
   { id: 'evidence', label: 'Survey evidence', short: 'Evidence', icon: FileText },
   { id: 'analytics', label: 'Survey analytics', short: 'Analytics', icon: BarChart3 },
   { id: 'geo-evidence', label: 'Geo photo evidence', short: 'Photos', icon: Camera },

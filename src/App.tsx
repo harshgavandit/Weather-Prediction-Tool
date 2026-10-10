@@ -10,6 +10,7 @@ import { GeoPhotoEvidence } from './components/GeoPhotoEvidence';
 import { ResponseDetailModal } from './components/ResponseDetailModal';
 import { PDFViewerModal } from './components/PDFViewerModal';
 import { SourcesMethodology } from './components/SourcesMethodology';
+import { WeatherAdvisor } from './components/WeatherAdvisor';
 import { fetchPhotoEvidence, fetchSectoralImpacts, fetchSurveyData } from './services/api';
 import { PhotoEvidenceResponse, SectoralImpactsData, SurveyRecord, SurveyResponseData } from './types';
 
@@ -74,6 +75,7 @@ export const App: React.FC = () => {
       {activeTab === 'overview' && <ExecutiveOverview surveyData={surveyData} onNavigateTab={routeTab} onOpenPdfModal={() => setIsPdfModalOpen(true)} />}
       {activeTab === 'evidence' && <PDFExplorer records={surveyData.records} onSelectRecord={setSelectedRecord} onOpenPdfModal={() => setIsPdfModalOpen(true)} />}
       {activeTab === 'analytics' && <SurveyAnalytics surveyData={surveyData} />}
+      <section hidden={activeTab !== 'weather-advisor'} aria-label="Weather advisor"><WeatherAdvisor /></section>
       {activeTab === 'geo-evidence' && (errors.photos ? <AnalysisUnavailable title="The field-evidence registry could not be loaded" message={errors.photos} /> : <GeoPhotoEvidence surveyData={surveyData} evidence={photoEvidence} onEvidenceChange={setPhotoEvidence} />)}
       {activeTab === 'impacts' && (sectorData ? <SectoralImpacts sectorData={sectorData} /> : <AnalysisUnavailable message={errors.sectors || 'The PDF-backed sector synthesis could not be loaded.'} />)}
       {activeTab === 'actions' && <ParticipantActionPlans surveyData={surveyData} photoEvidence={photoEvidence.items} onInspectResponse={(recordId) => setSelectedRecord(surveyData.records.find(record => record.id === recordId) || null)} />}

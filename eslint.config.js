@@ -20,7 +20,7 @@ export default tseslint.config(
     }
   },
   {
-    files: ['server/**/*.js', 'scripts/*.js'],
+    files: ['server/**/*.js', 'shared/**/*.js', 'scripts/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',

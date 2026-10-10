@@ -31,6 +31,16 @@ npm start
 
 Open `http://localhost:3001`.
 
+## Weather prediction and recommendations
+
+Open **Weather advisor** in the sidebar or **Ask** in the mobile navigation. Ask a question, optionally supply weather conditions, and select **Get recommendation**. Examples are editable; Ctrl/Cmd + Enter also submits. The last eight answers remain available while switching tabs, and **Clear conversation** removes them. Reloading the app clears questions and conditions.
+
+The advisor uses deterministic local rules, with no AI, API key, new dependency, or external data request. It supports outdoor activities, clothing, heat/humidity, rain/storms, cold, wind, UV, hydration, air quality, and general weather-related health questions. Question text can include Celsius/Fahrenheit temperatures, humidity, UV, and wind in km/h. Each answer records the conditions used; explicit conditions in a question take priority over form values.
+
+Current conditions are **user supplied**, not sensor readings. Unknown values stay unknown. The old weather snapshot and survey answers are never used as current telemetry. Future forecasts and city-specific readings are unavailable without a current data source, so forecast questions receive honest limitations and conditional planning advice. Health responses offer general precautions, not diagnoses or prescriptions; urgent personal symptoms receive emergency guidance. Authoritative further-reading links appear when relevant and are opened only by the user.
+
+Run the advisor regression suite with `npm run test:advisor`, or all application tests with `npm test`. Rule details and verification scope are documented in `docs/WEATHER_ADVISOR.md`.
+
 ## PDF extraction
 
 The extraction script requires Python and `pdfplumber`:
