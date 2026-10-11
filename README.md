@@ -7,6 +7,7 @@ Climora converts the supplied `RESPONSES.pdf` into a privacy-safe, traceable das
 - 51 anonymized survey records and 765 answer cells verified against page 1 of the PDF.
 - Row-level traceability through Participant ID, PDF row, page number, and question ID.
 - Searchable evidence explorer, response details, question analytics, comparisons, and clean CSV export.
+- Export just the visible survey records with **Download Filtered CSV**, or the full dataset with **Download All Records**. Filtered exports retain participant IDs, PDF row/page references, all 15 answer columns, and blank non-responses. Search and filter controls include accessible labels and announce the result count.
 - Survey-derived impact priorities and recommendations with clear source, calculated, and interpretation labels.
 - Blank values preserved without imputation and personal fields excluded from public application data.
 - Responsive animated interface with desktop and mobile navigation.

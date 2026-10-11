@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { SurveyRecord } from '../types';
 import { BadgeOrigin } from './BadgeOrigin';
+import { createSurveyCsv } from '../../shared/surveyCsv.js';
 
 interface PDFExplorerProps {
   records: SurveyRecord[];
@@ -76,6 +77,19 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
     return Array.from(s).sort();
   }, [records]);
 
+  const downloadFilteredCsv = () => {
+    const csv = createSurveyCsv(filteredRecords);
+    const url = URL.createObjectURL(new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'survey_filtered_responses.csv';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    // Give the browser time to start the download before releasing the blob.
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header and PDF Reference Info */}
@@ -105,7 +119,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium transition"
           >
             <Download className="w-4 h-4" />
-            <span>Download CSV</span>
+            <span>Download All Records</span>
           </a>
         </div>
       </div>
@@ -136,14 +150,16 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
+              aria-label="Search survey records"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search participant ID or answer content..."
-              className="w-full bg-slate-800/90 border border-slate-700/80 rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition"
+              className="w-full bg-slate-800/90 border border-slate-700/80 rounded-lg pl-9 pr-16 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
+                aria-label="Clear survey search"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-xs"
               >
                 Clear
@@ -154,6 +170,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
           <div className="flex flex-wrap items-center gap-2">
             {/* Concern Filter */}
             <select
+              aria-label="Filter by concern level"
               value={concernFilter}
               onChange={(e) => setConcernFilter(e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
@@ -167,6 +184,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
 
             {/* Problem Filter */}
             <select
+              aria-label="Filter by climate problem"
               value={problemFilter}
               onChange={(e) => setProblemFilter(e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
@@ -179,6 +197,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
 
             {/* Action Filter */}
             <select
+              aria-label="Filter by recommended action"
               value={actionFilter}
               onChange={(e) => setActionFilter(e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
@@ -191,6 +210,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
 
             {/* Flooding Experience Filter */}
             <select
+              aria-label="Filter by flooding exposure"
               value={floodFilter}
               onChange={(e) => setFloodFilter(e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
@@ -204,8 +224,9 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
-          <span>Showing <strong className="text-white">{filteredRecords.length}</strong> of {records.length} records</span>
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400 pt-1">
+          <span role="status" aria-live="polite">Showing <strong className="text-white">{filteredRecords.length}</strong> of {records.length} records</span>
+          <div className="flex flex-wrap items-center gap-3">
           {(searchTerm || concernFilter !== 'all' || problemFilter !== 'all' || actionFilter !== 'all' || floodFilter !== 'all') && (
             <button
               onClick={() => {
@@ -220,6 +241,16 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
               Reset All Filters
             </button>
           )}
+            <button
+              type="button"
+              onClick={downloadFilteredCsv}
+              disabled={filteredRecords.length === 0}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Download className="w-4 h-4" aria-hidden="true" />
+              Download Filtered CSV ({filteredRecords.length})
+            </button>
+          </div>
         </div>
       </div>
 
