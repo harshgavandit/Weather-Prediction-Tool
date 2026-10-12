@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
   Search,
   FileText,
@@ -9,23 +9,26 @@ import {
 import { SurveyRecord } from '../types';
 import { BadgeOrigin } from './BadgeOrigin';
 import { createSurveyCsv } from '../../shared/surveyCsv.js';
+import { DEFAULT_EVIDENCE_FILTERS, EvidenceFilters } from '../../shared/viewNavigation.js';
+import { ShareSurveyView } from './ShareSurveyView';
 
 interface PDFExplorerProps {
   records: SurveyRecord[];
+  filters: EvidenceFilters;
+  onFiltersChange: (filters: EvidenceFilters) => void;
   onSelectRecord: (record: SurveyRecord) => void;
   onOpenPdfModal: () => void;
 }
 
 export const PDFExplorer: React.FC<PDFExplorerProps> = ({
   records,
+  filters,
+  onFiltersChange,
   onSelectRecord,
   onOpenPdfModal
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [concernFilter, setConcernFilter] = useState('all');
-  const [problemFilter, setProblemFilter] = useState('all');
-  const [actionFilter, setActionFilter] = useState('all');
-  const [floodFilter, setFloodFilter] = useState('all');
+  const { search: searchTerm, concern: concernFilter, problem: problemFilter, action: actionFilter, flood: floodFilter } = filters;
+  const changeFilter = (key: keyof EvidenceFilters, value: string) => onFiltersChange({ ...filters, [key]: value });
 
   // Filtered dataset
   const filteredRecords = useMemo(() => {
@@ -152,13 +155,14 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
               type="text"
               aria-label="Search survey records"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => changeFilter('search', e.target.value)}
+              maxLength={200}
               placeholder="Search participant ID or answer content..."
               className="w-full bg-slate-800/90 border border-slate-700/80 rounded-lg pl-9 pr-16 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition"
             />
             {searchTerm && (
               <button
-                onClick={() => setSearchTerm('')}
+                onClick={() => changeFilter('search', '')}
                 aria-label="Clear survey search"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-xs"
               >
@@ -172,7 +176,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
             <select
               aria-label="Filter by concern level"
               value={concernFilter}
-              onChange={(e) => setConcernFilter(e.target.value)}
+              onChange={(e) => changeFilter('concern', e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
             >
               <option value="all">All Concern Levels</option>
@@ -186,7 +190,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
             <select
               aria-label="Filter by climate problem"
               value={problemFilter}
-              onChange={(e) => setProblemFilter(e.target.value)}
+              onChange={(e) => changeFilter('problem', e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
             >
               <option value="all">All Climate Problems</option>
@@ -199,7 +203,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
             <select
               aria-label="Filter by recommended action"
               value={actionFilter}
-              onChange={(e) => setActionFilter(e.target.value)}
+              onChange={(e) => changeFilter('action', e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
             >
               <option value="all">All Recommended Actions</option>
@@ -212,7 +216,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
             <select
               aria-label="Filter by flooding exposure"
               value={floodFilter}
-              onChange={(e) => setFloodFilter(e.target.value)}
+              onChange={(e) => changeFilter('flood', e.target.value)}
               className="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500"
             >
               <option value="all">All Flooding Exposure</option>
@@ -229,13 +233,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
           <div className="flex flex-wrap items-center gap-3">
           {(searchTerm || concernFilter !== 'all' || problemFilter !== 'all' || actionFilter !== 'all' || floodFilter !== 'all') && (
             <button
-              onClick={() => {
-                setSearchTerm('');
-                setConcernFilter('all');
-                setProblemFilter('all');
-                setActionFilter('all');
-                setFloodFilter('all');
-              }}
+              onClick={() => onFiltersChange({ ...DEFAULT_EVIDENCE_FILTERS })}
               className="text-emerald-400 hover:underline"
             >
               Reset All Filters
@@ -252,6 +250,7 @@ export const PDFExplorer: React.FC<PDFExplorerProps> = ({
             </button>
           </div>
         </div>
+        <ShareSurveyView filters={filters} />
       </div>
 
       {/* Main Table */}

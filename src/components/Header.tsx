@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenP
     <aside className={`app-sidebar ${open ? 'sidebar-open' : ''}`} aria-label="Primary navigation">
       <div className="brand-lockup"><div className="brand-orbit"><Compass className="h-5 w-5"/></div><div><strong>Climora</strong><span>Intelligence studio</span></div><button className="sidebar-close" onClick={() => setOpen(false)} aria-label="Close navigation"><X/></button></div>
       <div className="project-chip"><span className="status-dot"/><div><strong>PDF study ready</strong><span>51 anonymous records</span></div></div>
-      <nav className="sidebar-nav">{nav.map(({ id, label, icon: Icon }) => <button key={id} className={activeTab === id ? 'active' : ''} onClick={() => changeTab(id)}><Icon/><span>{label}</span>{activeTab === id && <i/>}</button>)}</nav>
+      <nav className="sidebar-nav">{nav.map(({ id, label, icon: Icon }) => <button key={id} aria-current={activeTab === id ? 'page' : undefined} className={activeTab === id ? 'active' : ''} onClick={() => changeTab(id)}><Icon/><span>{label}</span>{activeTab === id && <i/>}</button>)}</nav>
       <div className="sidebar-spacer"/>
       <button className="sidebar-source" onClick={onOpenPdfModal}><FileText/><span><strong>RESPONSES.pdf</strong><small>Original · page 1</small></span></button>
       <a className="sidebar-export" href="/api/export/csv" download><Download/> Export clean CSV</a>
@@ -44,6 +44,6 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenP
       </div>
     </header>
 
-    <nav className="mobile-nav" aria-label="Mobile navigation">{nav.slice(0, 5).map(({ id, short, icon: Icon }) => <button key={id} className={activeTab === id ? 'active' : ''} onClick={() => changeTab(id)}><Icon/><span>{short}</span></button>)}<button onClick={() => setOpen(true)}><ShieldCheck/><span>More</span></button></nav>
+    <nav className="mobile-nav" aria-label="Mobile navigation">{nav.slice(0, 5).map(({ id, short, icon: Icon }) => <button key={id} aria-current={activeTab === id ? 'page' : undefined} className={activeTab === id ? 'active' : ''} onClick={() => changeTab(id)}><Icon/><span>{short}</span></button>)}<button onClick={() => setOpen(true)}><ShieldCheck/><span>More</span></button></nav>
   </>;
 };

@@ -32,6 +32,16 @@ npm start
 
 Open `http://localhost:3001`.
 
+## Bookmark and share a survey view
+
+Each section now has its own URL, such as `#/analytics` or `#/weather-advisor`. Reloading a link opens that section, and browser Back/Forward moves between sections. Existing command-center shortcuts still open their corresponding pages.
+
+In **Survey evidence**, choose any combination of search, concern, climate problem, recommended action, and flooding exposure, then select **Copy view link**. Opening that link restores the filters and the matching rows; **Download Filtered CSV** exports those same rows. Survey filters also survive switching away and returning during the same session. **Reset All Filters** clears both the controls and the link.
+
+For example, `http://localhost:3001/#/evidence?problem=Heat&concern=Very+Concerned` opens the evidence page with both filters applied. Links use your current site address; a localhost link is accessible only on the same computer. Use the deployed site's address when sharing with others.
+
+Links include survey search text and selected filters in the URL fragment. The fragment is not sent to the server, but it is visible in the address bar, browser history, and to anyone receiving the link. Weather-advisor questions, conditions, conversation history, and admin credentials are never added to view links. If clipboard access is unavailable, the app displays a selectable link for manual copying. Unknown sections fall back to the command center; unrecognized survey filter values reset to **All**.
+
 ## Weather prediction and recommendations
 
 Open **Weather advisor** in the sidebar or **Ask** in the mobile navigation. Ask a question, optionally supply weather conditions, and select **Get recommendation**. Examples are editable; Ctrl/Cmd + Enter also submits. The last eight answers remain available while switching tabs, and **Clear conversation** removes them. Reloading the app clears questions and conditions.
